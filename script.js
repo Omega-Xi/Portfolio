@@ -19,3 +19,52 @@ document.getElementById("contact-form").addEventListener("submit", function(even
             alert("Failed to send message: " + JSON.stringify(error));
         });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    
+    // Check for saved theme preference or default to light
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.setAttribute('data-theme', savedTheme);
+    
+    // Update icon based on saved theme
+    updateThemeIcon(savedTheme);
+    
+    // Toggle theme on heading click
+    themeToggle.addEventListener('click', function() {
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        // Apply new theme
+        body.setAttribute('data-theme', newTheme);
+        
+        // Save preference to localStorage
+        localStorage.setItem('theme', newTheme);
+        
+        // Update icon
+        updateThemeIcon(newTheme);
+        
+        // Add a subtle animation effect
+        themeToggle.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            themeToggle.style.transform = 'scale(1)';
+        }, 150);
+    });
+});
+// Function to update theme icon
+function updateThemeIcon(theme) {
+    const darkIcon = document.getElementById('dark-icon');
+    const lightIcon = document.getElementById('light-icon');
+    
+    if (theme === 'dark') {
+        darkIcon.style.opacity = '1';
+        darkIcon.style.transform = 'rotate(0)';
+        lightIcon.style.opacity = '0';
+        lightIcon.style.transform = 'rotate(-90deg)';
+    } else {
+        darkIcon.style.opacity = '0';
+        darkIcon.style.transform = 'rotate(90deg)';
+        lightIcon.style.opacity = '1';
+        lightIcon.style.transform = 'rotate(0)';
+    }
+}
